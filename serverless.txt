@@ -1,0 +1,61 @@
+primeiro de tudo:
+- instalar Homebrew;
+Através do link:
+
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
+
+Após executar a linha acima, quando pedir, pressione ENTER(RETURN) para continuar com a instalação
+
+Executar os seguintes comandos para adionar o Homebrew ao seu PATH do seu script shell profile (Ubuntu)
+
+test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
+
+test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+
+echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.profile
+
+
+- instalar Nodejs;
+Executar comando após ter feito a instalação do Homebrew
+
+brew install node
+
+- instalar serverless;
+Executar comando
+
+npm install serverless -q
+
+Após a instalação do Serverless, criar um template com o que se quer trabalhar (nesse caso, Python3)
+
+serverless create --template aws-python3
+
+obs: crie um template em um diretorio, provavelmente dentro do diretorio do projeto
+
+
+yml provavelmente vai estar assim
+#========================================#===========================
+service: nome_do_servico
+
+provider:
+name: nome
+runtime: python 3.6 (exemplo)
+versionFunctions: false (evita que rode outras versões dos requerimentos ja instalados)
+region: us-east-1 (regiao onde se situa o server aws)
+
+Functions:
+hello:
+handler: handler.hello
+events:
+- http:
+path: echo/hello
+method: get
+#=========================================#============================
+
+-Entre na sua conta AWS, entre no IAM, crie um user com credenciais devidas para o acesso
+obs: é recomendado que não se dê credenciais de administrador para o user
+
+-Guarde a sua key e secret key, serão indispensáveis para fazer o deploy na aws
+
+-Agora é preciso compartilhar com os serverless as keys de acesso. Execute no terminal
+
+sls config credentials --provider aws --key *input the accessKey here* --secret *input the secret key here*
